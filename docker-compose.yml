@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+    backend:
+        build: ./back-fast-api
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./back-fast-api:/app
+        environment:
+            - PYTHONUNBUFFERED=1
+
+    frontend:
+        build: ./frontend-react
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./frontend-react:/app
+            - /app/node_modules
+        environment:
+            - NODE_ENV=development
+            # - CHOKIDAR_USEPOLLING=true
+        stdin_open: true
+        tty: true
+        depends_on:
+            - backend
